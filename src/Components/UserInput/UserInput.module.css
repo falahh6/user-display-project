@@ -1,0 +1,13 @@
+.form-control input {
+    width: 95%;
+    margin-bottom: 10px;
+    padding: 8px;
+    border: none;
+    outline: none;
+}
+
+.form-control label {
+    text-align: left;
+    font-size: 12px;
+    padding-bottom: 9px;
+}
