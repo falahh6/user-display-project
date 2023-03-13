@@ -1,4 +1,4 @@
-import React , { useState } from "react";
+import React , { useState , useRef} from "react";
 import Card from "../Card/Card";
 import Button from "../UI/Button";
 import ErrorModal from "../UI/ErrorModal";
@@ -6,46 +6,41 @@ import ErrorModal from "../UI/ErrorModal";
 import styles from './UserInput.module.css';
 
 const UserInput = (props) =>{
-
-    const [name , setName] = useState('');
-    const [age , setAge] = useState('');
     const [error, setError] = useState(null);
+
+    const nameInputRef = useRef();
+    const ageInputRef = useRef();
 
     function formSubmitHandler(event){
         event.preventDefault();
-        if( name.trim().length === 0 ){
+        let enteredName = nameInputRef.current.value;
+        let enetredAge = ageInputRef.current.value;
+        if( enteredName.trim().length === 0 ){
             setError({
                 title : 'Invalid Inputs',
                 message : 'Please Enter the Correct inputs'
             })
             return;
         }
-        if( +age < 18){
+        if( +enetredAge < 18){
             setError({
                 title : 'User Not Accepted',
                 message : 'The users age must be 18 or greater in order to use this Platform'
             })
             return;
         }
-        setName('');
-        setAge('');
 
-        props.onAddUser(name, age);
-    }
+        props.onAddUser(enteredName, enetredAge);
 
-    
-    const inputNameHandler = (event) =>{
-        setName(event.target.value);
-    }
-    const inputAgeHandler = (event) =>{
-        setAge(event.target.value);
+        nameInputRef.current.value = '';
+        ageInputRef.current.value = '';
     }
     const errorHandler = () =>{
         setError(null);
     }
 
     return (
-        <div>
+        <>
             {error &&  (
                 <ErrorModal 
                 title={error.title}
@@ -56,14 +51,14 @@ const UserInput = (props) =>{
             <Card>
                 <form  onSubmit={formSubmitHandler}  action="" className={styles['form-control']}>
                     <label htmlFor="">Enter User Name : </label>
-                    <input value={name} onChange={inputNameHandler} type="text" />
+                    <input  type="text" ref={nameInputRef} />
 
                     <label htmlFor="">Enter User Age : </label>
-                    <input value={age} onChange={inputAgeHandler} type="number" />
+                    <input  type="number"  ref={ageInputRef}/>
                     <Button>Add User</Button>
                 </form>
             </Card>
-        </div>
+        </>
     )
 }
 

@@ -2,8 +2,6 @@ import React from "react";
 import Card from "../Card/Card";
 import styles from './UsersList.module.css'
 const UsersList = (props) => {
-
-    console.log(props.users);
     return (
       <Card>
         <ul className={styles.UserDisplay}>
